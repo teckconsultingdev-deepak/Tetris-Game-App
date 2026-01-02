@@ -1,34 +1,28 @@
-# Docker
-# Build and push an image to Azure Container Registry
+
+# Build and push Docker image to Azure Container Registry (ACR)
+# Self-hosted Azure DevOps agent
 
 trigger:
 - main
 
-resources:
-- repo: self
+pool:
+  name: Default
 
 variables:
   dockerRegistryServiceConnection: '3944071b-1303-4003-ac55-a717adc5d1a8'
-  imageRepository: 'tetrisgameapp'
-  containerRegistry: 'deepakacr01.azurecr.io'
+  imageRepository: 'tetris-game-app'   # ✅ FIXED IMAGE NAME
   dockerfilePath: '$(Build.SourcesDirectory)/Dockerfile'
   tag: '$(Build.BuildId)'
 
-stages:
-- stage: Build
-  displayName: Build and push stage
-  jobs:
-  - job: Build
-    displayName: Build
-    pool:
-      name: Default   # ✅ SELF-HOSTED AGENT POOL
-    steps:
-    - task: Docker@2
-      displayName: Build and push image to ACR
-      inputs:
-        command: buildAndPush
-        repository: $(imageRepository)
-        dockerfile: $(dockerfilePath)
-        containerRegistry: $(dockerRegistryServiceConnection)
-        tags: |
-          $(tag)
+steps:
+- checkout: self
+
+- task: Docker@2
+  displayName: Build and push Docker image to ACR
+  inputs:
+    command: buildAndPush
+    repository: $(imageRepository)
+    dockerfile: $(dockerfilePath)
+    containerRegistry: $(dockerRegistryServiceConnection)
+    tags: |
+      $(tag)
