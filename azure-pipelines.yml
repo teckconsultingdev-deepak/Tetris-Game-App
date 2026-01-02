@@ -1,21 +1,27 @@
 
 # Build and push Docker image to Azure Container Registry (ACR)
-# Self-hosted Azure DevOps agent
+# Using Self-hosted Azure DevOps Linux Agent
 
 trigger:
 - main
 
 pool:
-  name: Default
+  name: Newpool   # ✅ UPDATED: self-hosted agent pool
 
 variables:
   dockerRegistryServiceConnection: '3944071b-1303-4003-ac55-a717adc5d1a8'
-  imageRepository: 'tetrisgameapp'   # ✅ FIXED IMAGE NAME
+  imageRepository: 'tetrisgameapp'
   dockerfilePath: '$(Build.SourcesDirectory)/Dockerfile'
   tag: '$(Build.BuildId)'
 
 steps:
 - checkout: self
+
+# (Optional but recommended) Verify Docker on agent
+- script: |
+    docker --version
+    docker info
+  displayName: 'Verify Docker installation'
 
 - task: Docker@2
   displayName: Build and push Docker image to ACR
