@@ -10,7 +10,7 @@ pool:
 
 variables:
   dockerRegistryServiceConnection: '3944071b-1303-4003-ac55-a717adc5d1a8'
-  imageRepository: 'tetris-game-app'   # ✅ FIXED IMAGE NAME
+  imageRepository: 'tetrisgameapp'   # ✅ FIXED IMAGE NAME
   dockerfilePath: '$(Build.SourcesDirectory)/Dockerfile'
   tag: '$(Build.BuildId)'
 
