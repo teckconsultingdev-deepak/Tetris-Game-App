@@ -18,7 +18,8 @@ variables:
 
   # Agent VM image name
   pool:
-  name: SelfHostedPool
+  name: Default
+
 
 stages:
 - stage: Build
